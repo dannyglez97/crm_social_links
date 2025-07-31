@@ -1,0 +1,78 @@
+<odoo>
+    <record id="view_partner_form_social_links_tab" model="ir.ui.view">
+        <field name="name">res.partner.form.social.links.tab</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!-- Pestaña de redes sociales -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Redes Sociales" name="social_media">
+                    <!-- Estado visual del completamiento -->
+                    <group class="o_box bg-light px-3 py-2 rounded">
+                        <field name="social_status" widget="statusbar" 
+                            statusbar_visible="incomplete,partial,complete"
+                            options="{'clickable': False}"/>
+                    </group>
+
+                    <!-- Separador decorativo -->
+                    <separator string="Enlaces de Redes Sociales" class="my-2"/>
+
+                    <!-- Facebook -->
+                    <group string="Facebook" class="mt16">
+                        <div class="o_row align-items-center">
+                            <i class="fa fa-facebook-square fa-2x mr8" style="color: #3b5998;" title="Facebook"/>
+                            <field name="facebook_url" class="oe_inline" placeholder="https://www.facebook.com/tuperfil"/>
+                            <a t-if="facebook_url" t-att-href="facebook_url" target="_blank" class="ml8 oe_edit_only" title="Abrir perfil">
+                                <i class="fa fa-external-link"/>
+                            </a>
+                        </div>
+                    </group>
+
+                    <!-- LinkedIn -->
+                    <group string="LinkedIn" class="mt16">
+                        <div class="o_row align-items-center">
+                            <i class="fa fa-linkedin-square fa-2x mr8" style="color: #0077b5;" title="LinkedIn"/>
+                            <field name="linkedin_url" class="oe_inline" placeholder="https://www.linkedin.com/in/tuperfil"/>
+                            <a t-if="linkedin_url" t-att-href="linkedin_url" target="_blank" class="ml8 oe_edit_only" title="Abrir perfil">
+                                <i class="fa fa-external-link"/>
+                            </a>
+                        </div>
+                    </group>
+
+                    <!-- Twitter -->
+                    <group string="Twitter" class="mt16">
+                        <div class="o_row align-items-center">
+                            <i class="fa fa-twitter-square fa-2x mr8" style="color: #1da1f2;" title="Twitter/X"/>
+                            <field name="twitter_url" class="oe_inline" placeholder="https://twitter.com/tuperfil"/>
+                            <a t-if="twitter_url" t-att-href="twitter_url" target="_blank" class="ml8 oe_edit_only" title="Abrir perfil">
+                                <i class="fa fa-external-link"/>
+                            </a>
+                        </div>
+                    </group>
+                </page>
+            </xpath>
+            
+        </field>
+    </record>
+    <!-- Añadir filtros a la vista de búsqueda -->
+    <record id="view_res_partner_filter_social" model="ir.ui.view">
+        <field name="name">res.partner.filter.social</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <!-- Añadir filtros de estado social -->
+            <xpath expr="//filter[last()]" position="after">
+                <filter string="Perfil Social Completo" name="social_complete" domain="[('social_status','=','complete')]"/>
+                <filter string="Perfil Social Parcial" name="social_partial" domain="[('social_status','=','partial')]"/>
+                <filter string="Perfil Social Incompleto" name="social_incomplete" domain="[('social_status','=','incomplete')]"/>
+                
+                <separator/>
+                
+                <filter string="Sin Facebook" name="no_facebook" domain="[('facebook_url','=',False)]"/>
+                <filter string="Sin LinkedIn" name="no_linkedin" domain="[('linkedin_url','=',False)]"/>
+                <filter string="Sin Twitter" name="no_twitter" domain="[('twitter_url','=',False)]"/>
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>

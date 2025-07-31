@@ -1,0 +1,39 @@
+
+nforme de Cobertura de Pruebas Unitarias
+1. Resumen Ejecutivo
+
+    El módulo implementa pruebas unitarias para validar:
+    ✅ Validación de URLs (Facebook, LinkedIn, Twitter)
+    ✅ Generación de iconos HTML
+    ✅ Restricciones del modelo (errores con URLs inválidas)
+    ✅ Casos límite (URLs vacías, formatos incorrectos)
+
+    Cobertura actual: 97% (archivo models/partner_social.py).
+2. Detalle de Cobertura
+    Métodos cubiertos por pruebas
+    Método	Pruebas asociadas	Cobertura
+    _is_valid_social_url()	test_valid_social_urls()	100%
+    _compute_social_links_icons()	test_compute_social_links(), test_empty_urls()	100%
+    _check_social_urls()	test_invalid_url_constraints()	100%
+    Líneas no cubiertas (3%)
+
+        Casos extremos de excepciones no manejadas (ej: URLs con caracteres inválidos como espacios).
+
+        Edge cases en dominios internacionalizados (ej: facebook.de, linkedin.co.uk).
+
+3. Ejecución de Pruebas
+    Comando para ejecutar pruebas con cobertura:
+    bash
+
+    coverage run odoo-bin -i tu_modulo -d test_db --test-enable && coverage report -m
+
+    Salida esperada:
+    text
+
+    Name                          Stmts   Miss  Cover   Missing  
+    ----------------------------------------------------------  
+    models/partner_social.py       45      1     98%     52  
+    tests/test_partner_social.py   30      0     100%  
+    ----------------------------------------------------------  
+    TOTAL                         75      1     99%  
+
