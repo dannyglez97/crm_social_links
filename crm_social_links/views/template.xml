@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <template id="cliente" name="Cliente">
+        
+       
+         <t t-call="website.layout">
+        <div class="container mt-4">
+            <h1 class="text-center mb-4">Nuestros Clientes</h1>
+
+            <!-- Buscador -->
+            <form method="GET" class="mb-4 text-center">
+                <div class="input-group" style="max-width: 500px; margin: 0 auto;">
+                    <input type="text" name="search" placeholder="Buscar por nombre" class="form-control" t-att-value="search or ''"/>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">Buscar</button>
+                        <button type="reset" class="btn btn-outline-secondary" onclick="window.location.href='/cliente'">Limpiar</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Tarjetas de clientes -->
+            <div class="row">
+                <t t-foreach="partners" t-as="partner">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100 shadow-sm border-0 hover-shadow-lg transition-all">
+                            <!-- Cabecera con foto y nombre -->
+                            <div class="card-header bg-white border-0 pb-0 d-flex align-items-center">
+                                <t t-set="avatar" t-value="partner.avatar_128 and ('/web/image/res.partner/%s/avatar_128' % partner.id) or '/web/static/img/placeholder.png'"/>
+                                <img t-att-src="avatar" class="rounded-circle me-3" width="60" height="60" alt="Avatar" style="object-fit: cover;"/>
+                                <div>
+                                    <h5 class="card-title mb-0" t-esc="partner.name"/>
+                                    <t t-if="partner.function">
+                                        <p class="text-muted small mb-0" t-esc="partner.function"/>
+                                    </t>
+                                    <t t-if="partner.parent_id">
+                                        <p class="text-muted small mb-0" t-esc="'en ' + partner.parent_id.name"/>
+                                    </t>
+                                </div>
+                            </div>
+                            
+                            <!-- Cuerpo de la tarjeta -->
+                            <div class="card-body pt-2">
+                                <!-- Información de contacto -->
+                                <div class="mb-3">
+                                    <t t-if="partner.email">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fa fa-envelope me-2 text-primary"></i>
+                                            <a t-att-href="'mailto:' + partner.email" t-esc="partner.email" class="text-dark"/>
+                                        </div>
+                                    </t>
+                                    <t t-if="partner.phone">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fa fa-phone me-2 text-success"></i>
+                                            <a t-att-href="'tel:' + partner.phone" t-esc="partner.phone" class="text-dark"/>
+                                        </div>
+                                    </t>
+                                    <t t-if="partner.mobile">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fa fa-mobile me-2 text-info"></i>
+                                            <a t-att-href="'tel:' + partner.mobile" t-esc="partner.mobile" class="text-dark"/>
+                                        </div>
+                                    </t>
+                                </div>
+                                
+                                <!-- Dirección -->
+                                <t t-if="partner.street or partner.city">
+                                    <div class="mb-3">
+                                        <h6 class="text-uppercase text-muted small mb-2">Dirección</h6>
+                                        <address class="small">
+                                            <t t-if="partner.street" t-esc="partner.street"/><br/>
+                                            <t t-if="partner.street2" t-esc="partner.street2 + ' '"/>
+                                            <t t-if="partner.city" t-esc="partner.city + ', '"/>
+                                            <t t-if="partner.state_id" t-esc="partner.state_id.name + ' '"/>
+                                            <t t-if="partner.zip" t-esc="partner.zip"/><br/>
+                                            <t t-if="partner.country_id" t-esc="partner.country_id.name"/>
+                                        </address>
+                                    </div>
+                                </t>
+                            </div>
+                            
+                            <!-- Pie de tarjeta con redes sociales -->
+                            <div class="card-footer bg-white border-0 pt-0">
+                                <t t-if="partner.social_links_icons">
+                                    <h6 class="text-uppercase text-muted small mb-2">Redes Sociales</h6>
+                                    <div t-raw="partner.social_links_icons" class="social-icons d-flex justify-content-center"/>
+                                </t>
+                                <t t-if="not partner.social_links_icons">
+                                    <div class="text-center text-muted small">
+                                        <i class="fa fa-share-alt me-1"></i> Sin redes sociales registradas
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+    </template>
+
+
+
+
+</odoo>
